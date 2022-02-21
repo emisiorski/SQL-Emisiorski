@@ -1,12 +1,12 @@
 const cTable = require('console.table');
 var inquirer = require('inquirer');
-const mysql2 = require('mysql2');
-const connection = require('./db/connection');
+const sql = require('mysql2');
+const db = require('./db/connection');
 const app = require('express');
 
 const PORT = process.env.PORT || 3001;
 
-connection.connect(err => {
+db.connect(err => {
   if (err) throw err;
   console.log('Database connected.');
   promptUser();
@@ -19,7 +19,7 @@ const promptUser = () => {
       type: 'list',
       name: 'activityChoice',
       message: 'What would you like to do?',
-      choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add Departments', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Exit']
+      choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add Departments', 'Add a Role', 'Add an Employee', 'Exit']
     }
   ]).then((answers) => {
     var activityChoice = answers.activityChoice;
@@ -52,8 +52,8 @@ const promptUser = () => {
 
 viewDepartments = () => {
   console.log('viewing departments');
-  const sql2 = 'SELECT departments.id, departments.name';
-  connection.query(sql2, (err, rows) => {
+  const sql = 'SELECT * FROM departments';
+  db.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
     promptUser();
@@ -62,10 +62,8 @@ viewDepartments = () => {
 
 viewRoles = () => {
   console.log('viewing roles');
-  const sql2 = `SELECT roles.id, roles.name, departments.name AS departments 
-              FROM role INNER JOIN departments 
-              ON role.departments_id = departments.id`;
-  connection.query(sql2, (err, rows) => {
+  const sql = `SELECT * FROM roles`;
+  db.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
     promptUser();
@@ -73,17 +71,8 @@ viewRoles = () => {
 };
 
 viewEmployees = () => {
-  const sql2 = `SELECT employee.id, 
-               employees.first_name, 
-               employees.last_name, 
-               roles.title, 
-               departments.name AS departments 
-               roles.salary AS departments.salary
-               FROM employees
-               LEFT JOIN role ON employees.role_id = roles.id
-               LEFT JOIN departments ON roles.departments_id = departments.id
-               LEFT JOIN employees manager ON employees.manager_id = manager.id`;
-  connection.query(sql2, (err, rows) => {
+  const sql = `SELECT * FROM employees`;
+  db.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
     promptUser();
@@ -95,18 +84,20 @@ addDepartments = () => {
     {
       type: 'input',
       name: 'departmentsName',
-      message: 'What departments do you want to add?',
+      message: 'What department do you want to add?',
     }
   ]).then((answer) => {
-    const sql2 = `INSERT INTO departments (name)
-                VALUES (?)`;
-    connection.query(sql2, answer.addDepartments, (err, res) => {
+    db.query(`INSERT INTO departments SET ?`, 
+    {name: answer.departmentsName});
+    db.query('SELECT * FROM departments', (err, res) => {
       if (err) throw err;
-      console.log('Added to departments!');
-      viewDepartments();
+      console.table(res);
+      console.log('New Department Added');
+      promptUser();
+    })
     });
-  });
-};
+  }
+
 
 addEmployee = () => {
   inquirer.prompt([
@@ -130,19 +121,49 @@ addEmployee = () => {
       name: 'employeeManager',
       message: 'What is your managers name?'
     }
-  ]).then(answers => {
-    console.log(departmentAnswers);
-  })
-}
+  ]). then((answer) => {
+    db.query(`INSERT INTO employees SET ?`, 
+    {firstName: answer.firstName, lastName: answer.lastName, employeeRole: answer.employeeRole, employeeManager: answer.employeeManager});
+    db.query('SELECT * FROM employees', (err, res) => {
+      if (err) throw err;
+      console.log('New Employee Added');
+      promptUser();
+    })
+    });
+  }
+
 
 addRole = () => {
-
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'What is your job title?'
+    },
+    {
+      type: 'input',
+      name: 'salary',
+      message: 'What is your salary?'
+    },
+    {
+      type: 'input',
+      name: 'roleDepartment',
+      message: 'What is your department?'
+    }
+  ]). then((answer) => {
+  db.query(`INSERT INTO roles SET ?`, 
+  {title: answer.title, salary: answer.salary, roleDepartment: answer.roleDepartment});
+  db.query('SELECT * FROM roles', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    console.log('New Role Added');
+    promptUser();
+  })
+  });
 }
 
-updateEmployeeRole = () => {
 
-}
 
 exitApp = () => {
-  connection.end();
+  db.end();
 }
