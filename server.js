@@ -83,12 +83,12 @@ addDepartments = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'departmentsName',
+      name: 'name',
       message: 'What department do you want to add?',
     }
   ]).then((answer) => {
     db.query(`INSERT INTO departments SET ?`, 
-    {name: answer.departmentsName});
+    {name: answer.name});
     db.query('SELECT * FROM departments', (err, res) => {
       if (err) throw err;
       console.table(res);
@@ -103,27 +103,22 @@ addEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'firstName',
+      name: 'first_name',
       message: 'What is your first name?'
     },
     {
       type: 'input',
-      name: 'lastName',
+      name: 'last_name',
       message: 'What is your last name?'
     },
     {
       type: 'input',
-      name: 'employeeRole',
-      message: 'What is your role?'
+      name: 'roles_id',
+      message: 'What is your role id?'
     },
-    {
-      type: 'input',
-      name: 'employeeManager',
-      message: 'What is your managers name?'
-    }
   ]). then((answer) => {
     db.query(`INSERT INTO employees SET ?`, 
-    {firstName: answer.firstName, lastName: answer.lastName, employeeRole: answer.employeeRole, employeeManager: answer.employeeManager});
+    {first_name: answer.first_name, last_name: answer.last_name, roles_id: answer.roles_id});
     db.query('SELECT * FROM employees', (err, res) => {
       if (err) throw err;
       console.log('New Employee Added');
@@ -147,12 +142,12 @@ addRole = () => {
     },
     {
       type: 'input',
-      name: 'roleDepartment',
-      message: 'What is your department?'
+      name: 'departments_id',
+      message: 'What is your department id?'
     }
   ]). then((answer) => {
   db.query(`INSERT INTO roles SET ?`, 
-  {title: answer.title, salary: answer.salary, roleDepartment: answer.roleDepartment});
+  {title: answer.title, salary: answer.salary, departments_id: answer.departments_id});
   db.query('SELECT * FROM roles', (err, res) => {
     if (err) throw err;
     console.table(res);
@@ -161,8 +156,6 @@ addRole = () => {
   })
   });
 }
-
-
 
 exitApp = () => {
   db.end();
