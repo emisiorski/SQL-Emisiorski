@@ -11,6 +11,21 @@ This is an application using MySQL where the user can add employees to a databas
 - [Link](#Link)
 - [Author](#Author)
 
+
+# Installation:
+
+Clone the GitHub repo then run npm i to install the packages needed.
+
+Within the db folder, change the user and password values in the connection.js file to your own credentials.
+
+run mysql in the command line with the following:
+
+source db/db.sql
+source db/schema.sql Only source the seeds file below for reference
+source db/seeds.sql
+
+then start it using node server.js or npm start
+
 ### Link:
 
 [Link to github](https://emisiorski.github.io/SQL-Emisiorski/)
