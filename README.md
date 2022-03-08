@@ -12,7 +12,11 @@ This is an application using MySQL where the user can add employees to a databas
 - [Author](#Author)
 
 ### Link:
-https://emisiorski.github.io/SQL-Emisiorski/
+
+[Link to github](https://emisiorski.github.io/SQL-Emisiorski/)
+
+[Link to video](https://drive.google.com/file/d/10limmbuNn5gWuIDJ8T0_lQUfn9IQy404/view)
+
 
 
 ## Author
