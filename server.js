@@ -84,7 +84,7 @@ addDepartments = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'name',
+      name: 'departments_name',
       message: 'What department do you want to add?',
     }
   ]).then((answer) => {
