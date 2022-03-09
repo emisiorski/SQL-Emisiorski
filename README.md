@@ -1,4 +1,4 @@
-# Note Taker Starter Code
+Employee Tracker
 
 # Description:
 This is an application using MySQL where the user can add employees to a database and manage their company information. 
@@ -30,7 +30,7 @@ then start it using node server.js or npm start
 
 [Link to github](https://emisiorski.github.io/SQL-Emisiorski/)
 
-[Link to video](https://drive.google.com/file/d/10limmbuNn5gWuIDJ8T0_lQUfn9IQy404/view)
+[Link to video](/Users/erica/Desktop/classprojects/SQL-Emisiorski/images/videoforsql.webm)
 
 
 
