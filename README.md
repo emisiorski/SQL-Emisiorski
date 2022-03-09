@@ -30,7 +30,7 @@ then start it using node server.js or npm start
 
 [Link to github](https://emisiorski.github.io/SQL-Emisiorski/)
 
-[Link to video](/Users/erica/Desktop/classprojects/SQL-Emisiorski/images/videoforsql.webm)
+[Link to video](chrome-extension://mmeijimgabbpbgpdklnllpncmdofkcpn/app.html#/files/fe74b3a5-ef4e-4948-ya4b-7b245a9d66b9)
 
 
 
